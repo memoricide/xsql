@@ -10,14 +10,18 @@ defmodule XSQL.Type do
   @smallest_integer_type  "INTEGER" # What a fucking ugly hack
 
   def __struct__ do
-    %{ type:   nil,
-       params: nil }
+    %{ type: nil,
+       args: nil }
   end
 
-  def type(t) 
+  def type(t, args \\ nil), do: type_do(t, args)
+  defp type_do(t, args)
     when is_atom(t) do
-    IO.puts "tehre"
-    %__MODULE__{type: atom_to_binary(t)}
+    %__MODULE__{type: atom_to_binary(t), args: args}
+  end
+  defp type_do(t, args) 
+    when is_binary(t) do
+    %__MODULE__{type: t, args: args}
   end
 
   # Sadly, to_type function sucks by design. Erlang's type system is not strong enough to 
@@ -28,13 +32,13 @@ defmodule XSQL.Type do
   # Which I do. Often and with pleasure.
   def to_type(t = %__MODULE__{}), do: t
   def to_type(v) when is_binary(v) and byte_size(v) <= 255 do
-    %__MODULE__{type: "VARCHAR", params: [@default_varchar_length |> integer_to_binary]}
+    %__MODULE__{type: "VARCHAR", args: [@default_varchar_length |> integer_to_binary]}
   end
   def to_type(v) when is_binary(v) do
     %__MODULE__{type: "TEXT"}
   end
   def to_type(v) when is_bitstring(v) do
-    %__MODULE__{type: "BIT", params: [v |> bit_size |> integer_to_binary]}
+    %__MODULE__{type: "BIT", args: [v |> bit_size |> integer_to_binary]}
   end
   def to_type(v) when is_integer(v) and v >= @smallint_min and v <= @smallint_max do
     %__MODULE__{type: @smallest_integer_type}
@@ -57,4 +61,10 @@ defmodule XSQL.Type do
     end
   end
 
+end
+
+defimpl XSQL.Protocol, for: XSQL.Type do
+  def to_sql(field) do
+    IO.inspect "NOT IMPLEMENTED"
+  end
 end
