@@ -20,13 +20,14 @@ defmodule XSQL.Column do
   end
 
   def nullable(col = %__MODULE__{}) do
-   %{ col | constraints: Enum.reduce(col.constraints, [], fn(x, a) ->
-                                                        unless x.constraint == "NOT NULL" do
-                                                          [x|a]
-                                                        else
-                                                          a
-                                                        end
-                                                      end)}
+   %{ col | constraints: Enum.reduce(col.constraints, [], 
+                                     fn(x, a) ->
+                                       unless x.constraint == "NOT NULL" do
+                                         [x|a]
+                                       else
+                                         a
+                                       end
+                                     end)}
   end
 
   def column(name, t) 
