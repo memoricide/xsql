@@ -4,11 +4,10 @@ defmodule XSQL.Type do
   @integer_min   0-2147483648
   @integer_max   2147483647
   @bigint_min    0-9223372036854775808 #lolrofl gives a compile time error w/o 0-
-
   @bigint_max    9223372036854775807
 
   @default_varchar_length 255
-  @smallest_integer_type  "INTEGER" # What a fucking hack
+  @smallest_integer_type  "INTEGER" # What a fucking ugly hack
 
   def __struct__ do
     %{ type:   nil,
