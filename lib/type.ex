@@ -66,7 +66,7 @@ end
 defimpl XSQL.Protocol, for: XSQL.Type do
   def to_sql(t = %XSQL.Type{ type: type, args: args }) do
     unless type do
-      :erlang.error({XSQL.Type, "Type is required in #{IO.inspect t}"})
+      :erlang.error({XSQL.Type, "Type is required in #{inspect t}"})
     end
     if args do
       type <> " (" <> (args |> Enum.join(",")) <> ")"

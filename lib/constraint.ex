@@ -20,6 +20,10 @@ defmodule XSQL.Constraint do
     %__MODULE__{constraint: "NOT NULL"}
   end
 
+  def default(value) do
+    %__MODULE__{constraint: "DEFAULT", params: [value]}
+  end
+
   # Boilerplate
   defmacro __using__(_) do
     quote do
@@ -32,9 +36,8 @@ end
 
 defimpl XSQL.Protocol, for: XSQL.Constraint do
   def to_sql(cstr = %XSQL.Constraint{name: name, constraint: constraint, args: args, params: params}) do
-    IO.inspect cstr
     unless constraint do
-      :erlang.error({XSQL.Constraint, "Constraint type is required in #{IO.inspect cstr}"})
+      :erlang.error({XSQL.Constraint, "Constraint type is required in #{inspect cstr}"})
     end
     buff = if name, do: ["CONSTRAINT", name], else: []
     buff = buff ++ [constraint]
