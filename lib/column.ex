@@ -1,4 +1,4 @@
-defmodule XSQL.Field do
+defmodule XSQL.Column do
   use XSQL.Type
   use XSQL.Constraint
 
@@ -11,21 +11,22 @@ defmodule XSQL.Field do
        constraints:  nil }
   end
 
+  # Some “special forms”
   def id() do
     %__MODULE__{name: "id", type: type("BIGINT"), constraints: [primary()]}
   end
 
-  def field(name, t) 
+  def column(name, t) 
     when is_binary(name) and is_atom(t) do
     %__MODULE__{name: name, type: type(t)}
   end
 
-  def field(name, v) 
+  def column(name, v) 
     when is_binary(name) do
     %__MODULE__{name: name, type: to_type(v)}
   end
 
-  def field(name, t, references: path) do
+  def column(name, t, references: path) do
     %__MODULE__{name: name, type: type(t), constraints: [ references(path) ]}
   end
 
@@ -39,7 +40,7 @@ defmodule XSQL.Field do
 
 end
 
-defimpl XSQL.Protocol, for: XSQL.Field do
+defimpl XSQL.Protocol, for: XSQL.Column do
   def to_sql(field) do
     IO.inspect "NOT IMPLEMENTED"
   end
