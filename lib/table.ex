@@ -15,11 +15,22 @@ defmodule XSQL.Table do
     IO.inspect name
     IO.inspect props
     quote do
-      if unquote(props)[:fields] do
+      ps = unquote(props)
+      if Keyword.has_key? ps, :fields do
         IO.puts "Full specification of a table"
+        IO.inspect Enum.into(ps, %unquote(__MODULE__){})
       else
-        IO.puts "Field-only specification of a table"
+        IO.puts "Partial specification of a table"
+        IO.inspect %unquote(__MODULE__){fields: ps}
       end
+    end
+  end
+
+  # Boilerplate
+  defmacro __using__(_) do
+    quote do
+      require unquote(__MODULE__)
+      import  unquote(__MODULE__)
     end
   end
 
