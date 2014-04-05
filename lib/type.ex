@@ -53,6 +53,8 @@ defmodule XSQL.Type do
     %__MODULE__{type: "NUMERIC"}
   end
 
+  def pg_typeof(x) when is_binary(x), do: "#{x}, pg_typeof(#{x}) as #{x}_t"
+
   # Boilerplate
   defmacro __using__(_) do
     quote do
