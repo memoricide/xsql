@@ -22,6 +22,7 @@ defmodule XSQL.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [{ :postgrex, github: "ericmj/postgrex" },
+     { :poolboy,  github: "devinus/poolboy" },]
   end
 end
