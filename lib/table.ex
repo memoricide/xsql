@@ -47,8 +47,8 @@ defimpl XSQL.Protocol, for: XSQL.Table do
     buff = if scope,       do: ["CREATE", scope],             else: ["CREATE"]
     buff = if temp,        do: buff ++ ["TEMP"],              else: buff
     buff = if unlogged,    do: buff ++ ["UNLOGGED"],          else: buff
-    buff = if new,         do: buff ++ ["IF NOT EXISTS"],     else: buff
     buff = if name,        do: buff ++ [ name ],              else: :erlang.error({XSQL.Table, "Name expected #{inspect t}"})
+    buff = if new,         do: buff ++ ["IF NOT EXISTS"],     else: buff
     buff = if of,          do: buff ++ ["OF", of],            else: buff
     buff = if columns,     do: buff ++ ["(", columns_to_sql(columns), ")"], else: buff
     buff = if params,      do: buff ++ params_to_sql(params), else: buff

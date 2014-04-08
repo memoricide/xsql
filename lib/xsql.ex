@@ -7,7 +7,7 @@ defmodule XSQL do
     XSQL.Supervisor.start_link
   end
 
-  defmacro __using__(opts) do
+  defmacro __using__(_) do
     sqltools = [XSQL.Table, XSQL.Column, XSQL.Constraint, XSQL.Type]
     tools = for tool <- sqltools do
       quote do
