@@ -16,8 +16,6 @@ defmodule XSQL.Table do
   end
 
   defmacro table(name, props) when is_binary(name) and is_list(props) do
-    IO.inspect name
-    IO.inspect props
     quote do
       ps = unquote(props)
       table =
@@ -27,7 +25,6 @@ defmodule XSQL.Table do
       else
         %unquote(__MODULE__){name: unquote(name), columns: ps}
       end
-      IO.inspect table
       %unquote(__MODULE__){ table | name: unquote(name)}
     end
   end
@@ -56,7 +53,6 @@ defimpl XSQL.Protocol, for: XSQL.Table do
   end
 
   defp columns_to_sql(fs) do
-    IO.inspect(fs)
     fs |>
     Enum.map(fn(x) -> XSQL.Protocol.to_sql(x) end) |>
     Enum.join ","

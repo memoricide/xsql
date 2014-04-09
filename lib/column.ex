@@ -59,7 +59,6 @@ end
 
 defimpl XSQL.Protocol, for: XSQL.Column do
   def to_sql(col = %XSQL.Column{name: name, type: type, collation: collation, constraints: constraints}) do
-    IO.inspect col
     unless name do
       :erlang.error({XSQL.Colum, "Name is required in #{inspect col}"})
     end
