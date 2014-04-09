@@ -24,6 +24,11 @@ defmodule XSQL.Type do
     %__MODULE__{type: t, args: args}
   end
 
+  # Some “special forms”
+  def varchar(int \\ 255) when is_integer(int) and int > 0 do
+    type("VARCHAR", [int])
+  end
+
   # Sadly, to_type function sucks by design. Erlang's type system is not strong enough to 
   # do any magic with it which is fucking sad. If I ever port this code to Haskell even more
   # cool black magic will be included in XSQL library.
