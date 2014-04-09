@@ -35,6 +35,10 @@ defmodule XSQL.Column do
     %__MODULE__{name: name, type: type(t)}
   end
 
+  def column(name, t = %XSQL.Type{}) do
+    %__MODULE__{name: name, type: t}
+  end
+
   def column(name, v) 
     when is_binary(name) do
     import XSQL.Util
