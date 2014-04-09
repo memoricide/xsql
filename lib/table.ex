@@ -41,7 +41,7 @@ end
 
 defimpl XSQL.Protocol, for: XSQL.Table do
   def to_sql(t = %XSQL.Table{scope: scope, temp: temp, unlogged: unlogged, new: new, name: name, of: of, columns: columns, params: params}) do
-    buff = if scope,       do: ["CREATE", scope],             else: ["CREATE"]
+    buff = if scope,       do: ["CREATE TABLE", scope],       else: ["CREATE TABLE"]
     buff = if temp,        do: buff ++ ["TEMP"],              else: buff
     buff = if unlogged,    do: buff ++ ["UNLOGGED"],          else: buff
     buff = if name,        do: buff ++ [ name ],              else: :erlang.error({XSQL.Table, "Name expected #{inspect t}"})
