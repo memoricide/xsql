@@ -15,19 +15,22 @@ defmodule XSQL.Column do
     %__MODULE__{name: "id", type: type("BIGINT"), constraints: [primary(), not_null()]}
   end
 
+  def default(name, x, v) do
+    column(name, x) |> default(v)
+  end
+
+  def default(col = %__MODULE__{}, v) do
+    import XSQL.Util
+    %{ col | constraints: [XSQL.Constraint.default(v |> to_binary)|
+                           Enum.filter(col.constraints, fn(x) -> x.constraint != "DEFAULT" end)] }
+  end
+
   def nullable(name, x) do 
    column(name, x) |> nullable
   end
 
   def nullable(col = %__MODULE__{}) do
-   %{ col | constraints: Enum.reduce(col.constraints, [], 
-                                     fn(x, a) ->
-                                       unless x.constraint == "NOT NULL" do
-                                         [x|a]
-                                       else
-                                         a
-                                       end
-                                     end)}
+    %{ col | constraints: Enum.filter(col.constraints, fn(x) -> x.constraint != "NOT NULL" end) }
   end
 
   def column(name, t) 

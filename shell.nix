@@ -2,7 +2,7 @@ let
   pkgs = import <nixpkgs> {};
   memoricidepkgs = import <memoricidepkgs> {};
   stdenv = pkgs.stdenv;
-  elixir = import /home/sweater/.nix/pkg/elixir/default.nix {};
+  elixir = import ./elixir.nix {};
 in
 {
   developmentEnv = stdenv.mkDerivation rec {
