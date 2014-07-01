@@ -17,7 +17,7 @@ defmodule XSQL.Type do
   def type(t, args \\ nil), do: type_do(t, args)
   defp type_do(t, args)
     when is_atom(t) do
-    %__MODULE__{type: atom_to_binary(t), args: args}
+    %__MODULE__{type: :erlang.atom_to_binary(t), args: args}
   end
   defp type_do(t, args) 
     when is_binary(t) do
@@ -37,13 +37,13 @@ defmodule XSQL.Type do
   # Which I do. Often and with pleasure.
   def to_type(t = %__MODULE__{}), do: t
   def to_type(v) when is_binary(v) and byte_size(v) <= 255 do
-    %__MODULE__{type: "VARCHAR", args: [@default_varchar_length |> integer_to_binary]}
+    %__MODULE__{type: "VARCHAR", args: [@default_varchar_length |> :erlang.integer_to_binary]}
   end
   def to_type(v) when is_binary(v) do
     %__MODULE__{type: "TEXT"}
   end
   def to_type(v) when is_bitstring(v) do
-    %__MODULE__{type: "BIT", args: [v |> bit_size |> integer_to_binary]}
+    %__MODULE__{type: "BIT", args: [v |> bit_size |> :erlang.integer_to_binary]}
   end
   def to_type(v) when is_integer(v) and v >= @smallint_min and v <= @smallint_max do
     %__MODULE__{type: @smallest_integer_type}
